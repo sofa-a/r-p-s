@@ -28,12 +28,14 @@ function playRound(humanChoice, computerChoice) {
 }
 
 function endGame(humanScore, computerScore) {
+    const winner = document.createElement("div");
     if (humanScore > computerScore) {
-        console.log("player wins");
+        winner.textContent = "player wins";
     } 
     else if (computerScore > humanScore) {
-        console.log("computer wins");
+        winner.textContent = "computer wins";
     } 
+    document.body.appendChild(winner);
 }
 
 function playGame() {
@@ -41,7 +43,7 @@ function playGame() {
     computerScore = 0;
     var outcome;
 
-    const container = document.querySelector("body");
+    let existingDiv = null;
 
     const buttons = document.querySelectorAll("button");
     buttons.forEach((button) => {
@@ -58,11 +60,18 @@ function playGame() {
                 computerScore += 1;
             }
 
+            if (existingDiv) {existingDiv.remove()};
+            const div = document.createElement("div");
+            div.textContent = outcome;
+            document.body.appendChild(div);
+            existingDiv = div;
+
     
             // display outcome of the game
             if (humanScore === 5 || computerScore === 5) {
                 buttons.forEach((button) => button.disabled = true);
                 endGame(humanScore, computerScore);
+
             }
             
         });
