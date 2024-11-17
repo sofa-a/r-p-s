@@ -27,39 +27,49 @@ function playRound(humanChoice, computerChoice) {
 
 }
 
+function endGame(humanScore, computerScore) {
+    if (humanScore > computerScore) {
+        console.log("player wins");
+    } 
+    else if (computerScore > humanScore) {
+        console.log("computer wins");
+    } 
+}
+
 function playGame() {
     humanScore = 0;
     computerScore = 0;
+    var outcome;
 
-    const rock = document.querySelector("#rock");
-    /*const paper = document.querySelector("#paper");
-    const scissors = document.querySelector("#scissors");*/
+    const container = document.querySelector("body");
 
+    const buttons = document.querySelectorAll("button");
+    buttons.forEach((button) => {
+        button.addEventListener("click", function (e) {
+            let choice = e.target.getAttribute("id");
+            const computerSelection = getComputerChoice();
+            outcome = playRound(choice, computerSelection);            
 
-    rock.addEventListener("click", () => {
-        const computerSelection = getComputerChoice();
-        console.log(playRound("rock", computerSelection));
+            // display outcome of the round
+            if (outcome == "win") {
+                humanScore += 1;
+            }
+            else if (outcome == "lose") {
+                computerScore += 1;
+            }
+
+    
+            // display outcome of the game
+            if (humanScore === 5 || computerScore === 5) {
+                buttons.forEach((button) => button.disabled = true);
+                endGame(humanScore, computerScore);
+            }
+            
+        });
     });
-    /*paper.addEventListener("click", playRound("paper", computerSelection));
-    scissors.addEventListener("click", playRound("scissors", computerSelection));
 
-    if (outcome == "win") {
-        humanScore += 1;
-    }
-    else if (outcome == "lose") {
-        computerScore += 1;
-    }
-    console.log(outcome);
 
-    /*if (humanScore > computerScore) {
-        console.log("you win");
-    }
-    else if (computerScore > humanScore) {
-        console.log("you lose");
-    }
-    else {
-        console.log("you drew");
-    }*/
+
 }
 
 playGame();
